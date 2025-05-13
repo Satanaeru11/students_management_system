@@ -48,3 +48,27 @@ def get_students_by_name(db: Session, name: str):
 
 def get_students_by_school_if(db: Session, school_id: int):
     return db.query(Student).filter(Student.school_id == school_id).all()
+
+def get_jhs_by_id(db: Session, school_id: int):
+    return db.query(JuniorHighSchool).filter(JuniorHighSchool.id == school_id).first()
+
+def update_jhs(db: Session, school_id: int, school_data: JuniorHighSchoolCreate):
+    school = get_jhs_by_id(db, school_id)
+    if school is None:
+        return None
+    for key, value in school_data.dict().items():
+        setattr(school, key, value)
+    db.commit()
+    db.refresh(school)
+    return school
+
+def delete_jhs(db: Session, school_id: int):
+    school = get_jhs_by_id(db, school_id)
+    if school is None:
+        return None
+    db.delete(school)
+    db.commit()
+    return school
+
+def get_jhs_by_name(db: Session, name: str):
+    return db.query(JuniorHighSchool).filter(JuniorHighSchool.name.contains(name)).all()

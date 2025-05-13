@@ -49,3 +49,28 @@ def search_students_by_name(name: str, db: Session = Depends(get_db)):
 @router.get('/by_school/{school_id}', response_model=list[schemas.Student])
 def search_students_by_school(school_id: int, db: Session = Depends(get_db)):
     return crud.gets_students_by_schoool_id(db, school_id)
+
+@router.get("/schools/{school_id}", response_model=schemas.JuniorHighSchool)
+def read_school(school_id: int, db: Session = Depends(get_db)):
+    school = crud.get_jhs_by_id(db, school_id)
+    if school is None:
+        raise HTTPException(status_code=404, detail="School not found")
+    return school
+
+@router.put("/schools/{school_id}", response_model=schemas.JuniorHighSchool)
+def update_school(school_id: int, school: schemas.JuniorHighSchoolCreate, db: Session = Depends(get_db)):
+    updated_school = crud.update_jhs(db, school_id, school)
+    if updated_school is None:
+        raise HTTPException(status_code=404, detail="School not found")
+    return updated_school
+
+@router.delete("/schools/{school_id}", response_model=schemas.JuniorHighSchool)
+def delete_school(school_id: int, db: Session = Depends(get_db)):
+    deleted_school = crud.delete_jhs(db, school_id)
+    if deleted_school is None:
+        raise HTTPException(status_code=404, detail="School not found")
+    return deleted_school
+
+@router.get("/schools/search/", response_model=list[schemas.JuniorHighSchool])
+def search_schools_by_name(name: str, db: Session = Depends(get_db)):
+    return crud.get_jhs_by_name(db, name)
