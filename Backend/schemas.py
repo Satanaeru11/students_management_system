@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
 
-# 中学校
 class JuniorHighSchoolBase(BaseModel):
     name: str
     principal: str
@@ -16,7 +15,6 @@ class JuniorHighSchool(JuniorHighSchoolBase):
     class Config:
         orm_mode = True
 
-# 生徒
 class StudentBase(BaseModel):
     name: str
     grade: str
