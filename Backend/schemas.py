@@ -12,8 +12,9 @@ class JuniorHighSchoolCreate(JuniorHighSchoolBase):
 
 class JuniorHighSchool(JuniorHighSchoolBase):
     id: int
-    class Config:
-        orm_mode = True
+    model_config = {
+        'from_attributes' : True
+    }
 
 class StudentBase(BaseModel):
     name: str
@@ -28,5 +29,6 @@ class StudentCreate(StudentBase):
 class Student(StudentBase):
     id: int
     junior_high: Optional[JuniorHighSchool]
-    class Config:
-        orm_mode = True
+    model_config = {
+        'from_attributes' : True
+    }
